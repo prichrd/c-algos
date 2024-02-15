@@ -2,7 +2,10 @@ CC=gcc
 SRC_DIR=src
 CFLAGS=-g -I $(SRC_DIR)
 
-_OBJ=main.o containers/stack/stack.o
+_OBJ=main.o \
+		 containers/node.o \
+		 containers/stack.o \
+		 containers/singly_linked_list.o
 OBJ=$(patsubst %,$(SRC_DIR)/%,$(_OBJ))
 
 $(TARGET):
