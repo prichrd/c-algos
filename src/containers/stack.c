@@ -6,6 +6,10 @@
 
 Stack *stack_new() {
   Stack *s = malloc(sizeof(Stack));
+  if (s == NULL) {
+    perror("failed to allocate stack");
+    abort();
+  }
   s->len = 0;
   s->head = NULL;
   return s;
@@ -20,10 +24,6 @@ void stack_destroy(Stack *s) {
 
 void stack_push(Stack *s, VAL_T v) {
   Node *n = node_new();
-  if (n == NULL) {
-    perror("failed to allocate new node for stack");
-    abort();
-  }
   n->val = v;
   if (s->head != NULL) {
     n->next = s->head;
@@ -40,6 +40,7 @@ VAL_T stack_pop(Stack *s) {
   Node *popped = s->head;
   VAL_T val = popped->val;
   s->head = popped->next;
+  s->len--;
   node_destroy(popped, false);
   return val;
 }

@@ -6,16 +6,21 @@
 
 Node *node_new() {
   Node *n = malloc(sizeof(Node));
+  if (n == NULL) {
+    perror("failed to allocate node");
+    abort();
+  }
   n->prev = NULL;
   n->next = NULL;
   return n;
 }
 
 void node_destroy(Node *n, bool recursive) {
-  if (recursive && n->next != NULL) {
-    node_destroy(n->next, recursive);
+  if (n == NULL) {
+    return;
   }
-  if (recursive && n->prev != NULL) {
+  if (recursive) {
+    node_destroy(n->next, recursive);
     node_destroy(n->prev, recursive);
   }
   free(n);

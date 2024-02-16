@@ -7,27 +7,31 @@
 
 SinglyLinkedList *singlyLinkedList_new() {
   SinglyLinkedList *l = malloc(sizeof(SinglyLinkedList));
+  if (l == NULL) {
+    perror("failed to allocate singly linked list");
+    abort();
+  }
   l->len = 0;
   return l;
 }
+
+int singlyLinkedList_length(SinglyLinkedList *l) { return l->len; }
 
 Node *singlyLinkedList_head(SinglyLinkedList *l) { return l->head; }
 
 Node *singlyLinkedList_tail(SinglyLinkedList *l) { return l->tail; }
 
 void singlyLinkedList_destroy(SinglyLinkedList *l) {
-  if (l->head != NULL) {
-    node_destroy(l->head, true);
+  Node *n = l->head;
+  while (n != NULL) {
+    node_destroy(n, false);
+    n = n->next;
   }
   free(l);
 }
 
 Node *singlyLinkedList_pushFront(SinglyLinkedList *l, VAL_T v) {
   Node *n = node_new();
-  if (n == NULL) {
-    perror("failed to allocate new node for list");
-    abort();
-  }
   n->val = v;
   if (l->head == NULL) {
     l->head = n;
@@ -43,10 +47,6 @@ Node *singlyLinkedList_pushFront(SinglyLinkedList *l, VAL_T v) {
 
 Node *singlyLinkedList_pushBack(SinglyLinkedList *l, VAL_T v) {
   Node *n = node_new();
-  if (n == NULL) {
-    perror("failed to allocate new node for list");
-    abort();
-  }
   n->val = v;
   if (l->tail == NULL) {
     l->head = n;
@@ -63,7 +63,7 @@ Node *singlyLinkedList_pushBack(SinglyLinkedList *l, VAL_T v) {
 Node *singlyLinkedList_findNode(SinglyLinkedList *l, Node *from, VAL_T v) {
   Node *searchFrom = from;
   if (from == NULL) {
-    from = l->head;
+    searchFrom = l->head;
   }
   if (searchFrom == NULL) {
     return NULL;
@@ -93,5 +93,3 @@ void singlyLinkedList_deleteNode(SinglyLinkedList *l, Node *n) {
     next = next->next;
   }
 }
-
-int singlyLinkedList_length(SinglyLinkedList *l) { return l->len; }

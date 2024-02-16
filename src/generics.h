@@ -1,1 +1,1 @@
-#define VAL_T double
+#define VAL_T int
