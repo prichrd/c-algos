@@ -25,7 +25,7 @@ void doublyLinkedList_destroy(DoublyLinkedList *l) {
   Node *n = l->head;
   while (n != NULL) {
     node_destroy(n, false);
-    n = n->next;
+    n = n->right;
   }
   free(l);
 }
@@ -39,9 +39,9 @@ Node *doublyLinkedList_pushFront(DoublyLinkedList *l, VAL_T v) {
     l->len++;
     return n;
   }
-  n->next = l->head;
+  n->right = l->head;
   l->head = n;
-  l->head->next->prev = l->head;
+  l->head->right->left = l->head;
   l->len++;
   return n;
 }
@@ -55,8 +55,8 @@ Node *doublyLinkedList_pushBack(DoublyLinkedList *l, VAL_T v) {
     l->len++;
     return n;
   }
-  n->prev = l->tail;
-  l->tail->next = n;
+  n->left = l->tail;
+  l->tail->right = n;
   l->tail = n;
   l->len++;
   return n;
@@ -87,14 +87,14 @@ Node *doublyLinkedList_insertForward(DoublyLinkedList *l, Node *from, VAL_T v) {
   }
   Node *n = node_new();
   n->val = v;
-  n->next = from->next;
-  n->prev = from;
-  if (from->next != NULL) {
-    from->next->prev = n;
+  n->right = from->right;
+  n->left = from;
+  if (from->right != NULL) {
+    from->right->left = n;
   } else {
     l->tail = n;
   }
-  from->next = n;
+  from->right = n;
   l->len++;
   return n;
 }
@@ -107,30 +107,30 @@ Node *doublyLinkedList_insertBackward(DoublyLinkedList *l, Node *from,
   }
   Node *n = node_new();
   n->val = v;
-  n->prev = from->prev;
-  n->next = from;
-  if (from->prev != NULL) {
-    from->prev->next = n;
+  n->left = from->left;
+  n->right = from;
+  if (from->left != NULL) {
+    from->left->right = n;
   } else {
     l->head = n;
   }
-  from->prev = n;
+  from->left = n;
   l->len++;
   return n;
 }
 
 void doublyLinkedList_deleteNode(DoublyLinkedList *l, Node *n) {
-  Node *next = n->next;
-  Node *prev = n->prev;
+  Node *next = n->right;
+  Node *prev = n->left;
   if (next != NULL) {
-    next->prev = prev;
+    next->left = prev;
   } else {
-    l->tail = n->prev;
+    l->tail = n->left;
   }
   if (prev != NULL) {
-    prev->next = next;
+    prev->right = next;
   } else {
-    l->head = n->next;
+    l->head = n->right;
   }
   l->len--;
   node_destroy(n, false);

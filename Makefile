@@ -7,7 +7,8 @@ CFLAGS=-g -I $(SRC_DIR)
 _OBJ=containers/node.o \
 		 containers/stack.o \
 		 containers/singly_linked_list.o \
-		 containers/doubly_linked_list.o
+		 containers/doubly_linked_list.o \
+		 containers/binary_search_tree.o
 OBJ=$(patsubst %,$(SRC_DIR)/%,$(_OBJ))
 
 $(SRC_DIR)/%.o: $(SRC_DIR)/%.c

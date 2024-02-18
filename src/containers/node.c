@@ -10,8 +10,8 @@ Node *node_new() {
     perror("failed to allocate node");
     abort();
   }
-  n->prev = NULL;
-  n->next = NULL;
+  n->left = NULL;
+  n->right = NULL;
   return n;
 }
 
@@ -20,8 +20,8 @@ void node_destroy(Node *n, bool recursive) {
     return;
   }
   if (recursive) {
-    node_destroy(n->next, recursive);
-    node_destroy(n->prev, recursive);
+    node_destroy(n->right, recursive);
+    node_destroy(n->left, recursive);
   }
   free(n);
 }
@@ -33,7 +33,7 @@ Node *node_findPrev(Node *n, VAL_T v) {
   if (n->val == v) {
     return n;
   }
-  return node_findPrev(n->prev, v);
+  return node_findPrev(n->left, v);
 }
 
 Node *node_findNext(Node *n, VAL_T v) {
@@ -43,5 +43,5 @@ Node *node_findNext(Node *n, VAL_T v) {
   if (n->val == v) {
     return n;
   }
-  return node_findNext(n->next, v);
+  return node_findNext(n->right, v);
 }

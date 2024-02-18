@@ -5,9 +5,10 @@
 #include "../generics.h"
 
 typedef struct Node {
+  KEY_T key;
   VAL_T val;
-  struct Node *prev;
-  struct Node *next;
+  struct Node *left;
+  struct Node *right;
 } Node;
 
 Node *node_new();

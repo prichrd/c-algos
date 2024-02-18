@@ -26,7 +26,7 @@ void stack_push(Stack *s, VAL_T v) {
   Node *n = node_new();
   n->val = v;
   if (s->head != NULL) {
-    n->next = s->head;
+    n->right = s->head;
   }
   s->head = n;
   s->len++;
@@ -39,7 +39,7 @@ VAL_T stack_pop(Stack *s) {
   }
   Node *popped = s->head;
   VAL_T val = popped->val;
-  s->head = popped->next;
+  s->head = popped->right;
   s->len--;
   node_destroy(popped, false);
   return val;

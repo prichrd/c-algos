@@ -25,7 +25,7 @@ void singlyLinkedList_destroy(SinglyLinkedList *l) {
   Node *n = l->head;
   while (n != NULL) {
     node_destroy(n, false);
-    n = n->next;
+    n = n->right;
   }
   free(l);
 }
@@ -39,7 +39,7 @@ Node *singlyLinkedList_pushFront(SinglyLinkedList *l, VAL_T v) {
     l->len++;
     return n;
   }
-  n->next = l->head;
+  n->right = l->head;
   l->head = n;
   l->len++;
   return n;
@@ -54,7 +54,7 @@ Node *singlyLinkedList_pushBack(SinglyLinkedList *l, VAL_T v) {
     l->len++;
     return n;
   }
-  l->tail->next = n;
+  l->tail->right = n;
   l->tail = n;
   l->len++;
   return n;
@@ -76,20 +76,20 @@ void singlyLinkedList_deleteNode(SinglyLinkedList *l, Node *n) {
     return;
   }
   if (l->head == n) {
-    l->head = n->next;
+    l->head = n->right;
     l->len--;
     node_destroy(n, false);
   }
   Node *parent = l->head;
-  Node *next = l->head->next;
+  Node *next = l->head->right;
   while (next != NULL) {
     if (next == n) {
-      parent->next = parent->next->next;
+      parent->right = parent->right->right;
       l->len--;
       node_destroy(n, false);
       break;
     }
-    parent = parent->next;
-    next = next->next;
+    parent = parent->right;
+    next = next->right;
   }
 }
